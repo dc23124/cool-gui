@@ -1,26 +1,24 @@
 import tkinter as tk
 from tkinter import messagebox
 
+item = ["Party Hat", "Confetti", "Balloons"]
+
 # strips out more than one space when user enters their inputs
 def get_input():
     name = entry_name.get().strip()
     receipt = entry_receipt.get().strip()
-    item = entry_item.get().strip()
+    item = selected_item.get()
     amount = entry_amount.get().strip()
 
-    if not name:
+    if not name.isalpha():
         messagebox.showwarning("Input Required", "Please enter your full name.")
         return
     
-    if not receipt.isdigit:
+    if not receipt.isdigit():
         messagebox.showwarning("Input Required", "Please enter your full receipt.")
         return
     
-    if not item:
-        messagebox.showwarning("Input Required", "Please enter your full item.")
-        return
-    
-    if not amount or amount.isdigit:
+    if not amount.isdigit():
         messagebox.showwarning("Input Required", "Please enter your full amount.")
         return
 
@@ -28,7 +26,7 @@ def get_input():
         f"Full Name: {name}\n"
         f"Receipt Number: {receipt}\n"
         f"Item Hired: {item}\n"
-        f"Amount: {amount}"
+        f"Amount: {amount}\n"
     )
 
     messagebox.showinfo("Done", output)
@@ -49,10 +47,14 @@ label_receipt.grid(padx=10, pady=5)
 entry_receipt = tk.Entry(root, width=30)
 entry_receipt.grid(padx=10, pady=5)
 
-label_item = tk.Label(root, text="The item that is hired:")
+label_item = tk.Label(root, text="Select an item:")
 label_item.grid(padx=10, pady=5)
-entry_item = tk.Entry(root, width=30)
-entry_item.grid(padx=10, pady=5)
+
+selected_item = tk.StringVar()
+selected_item.set(item[0])   # Default option
+
+item_menu = tk.OptionMenu(root, selected_item, *item)
+item_menu.grid(padx=10, pady=5)
 
 label_amount = tk.Label(root, text="Enter the amount of items:")
 label_amount.grid(padx=10, pady=5)
@@ -62,7 +64,7 @@ entry_amount.grid(padx=10, pady=5)
 def clear_entries():
     entry_name.delete(0, tk.END)
     entry_receipt.delete(0, tk.END)
-    entry_item.delete(0, tk.END)
+    selected_item.set(item[0])
     entry_amount.delete(0, tk.END)
 
 # clear button
